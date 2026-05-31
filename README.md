@@ -12,6 +12,24 @@ pnpm run dev
 - API: `http://localhost:5000` (префикс `/api`)
 - Web: `http://localhost:5173` (прокси `/api` → API)
 
+Переменные окружения web (`apps/web/.env.example`):
+
+| Переменная | Назначение |
+|------------|------------|
+| `VITE_API_BASE_URL` | Origin бэкенда без `/api` (например `https://api.example.com`). Пусто в dev — запросы на `/api` через proxy Vite. |
+| `VITE_TOURNAMENT_WIDGET_REMOTE` | URL `remoteEntry.js` виджета при production-сборке (на Vercel задаётся в `build:vercel`). |
+
+На Vercel для фронта укажите `VITE_API_BASE_URL` на URL задеплоенного Nest API. На API — `CORS_ORIGINS` с URL фронта (`apps/api/.env.example`).
+
+**Vercel — два отдельных проекта:**
+
+| Проект | Root Directory | Framework | Output Directory |
+|--------|----------------|-----------|------------------|
+| Web | `apps/web` | Vite | `dist` |
+| API | `apps/api` | NestJS | **пусто** (не `dist`) |
+
+См. `apps/web/vercel.json` и `apps/api/vercel.json`. В UI снимите Production Overrides. API build: `pnpm -w run build:vercel:api`.
+
 Отдельно виджет в dev: `pnpm --filter @widget/tournament-widget dev`.
 
 ## Структура
