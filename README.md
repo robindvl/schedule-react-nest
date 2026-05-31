@@ -19,7 +19,7 @@ pnpm run dev
 | `VITE_API_BASE_URL` | Origin бэкенда без `/api` (например `https://api.example.com`). Пусто в dev — запросы на `/api` через proxy Vite. |
 | `VITE_TOURNAMENT_WIDGET_REMOTE` | URL `remoteEntry.js` виджета при production-сборке (на Vercel задаётся в `build:vercel`). |
 
-На Vercel для фронта укажите `VITE_API_BASE_URL` на URL задеплоенного Nest API. На API — `CORS_ORIGINS` с URL фронта (`apps/api/.env.example`).
+На Vercel для фронта: `VITE_API_BASE_URL=https://schedule-react-nest-api.vercel.app` (без `/api`). На API при деплое на Vercel CORS для `*.vercel.app` включён по умолчанию; при необходимости задайте `CORS_ORIGINS` или `FRONTEND_URL` (`apps/api/.env.example`).
 
 **Vercel — два отдельных проекта:**
 
