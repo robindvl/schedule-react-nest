@@ -1,0 +1,140 @@
+import type {
+  TournamentChangeLogData,
+  TournamentData,
+  TournamentStatusAuditData,
+} from '@repo/domain';
+
+function createStatusAudit(
+  status: TournamentData['status'],
+): TournamentStatusAuditData {
+  return {
+    lastChange: {
+      at: '2026-05-01T10:00:00+03:00',
+      toStatus: status,
+      reason: 'Initial status',
+      actor: {
+        id: 'user-1',
+        login: 'admin',
+        name: 'Admin',
+      },
+    },
+    history: [],
+  };
+}
+
+function createChangeLog(): TournamentChangeLogData[] {
+  return [];
+}
+
+export const mockTournaments: TournamentData[] = [
+  {
+    id: 'tournament-1',
+    source: 'CUSTOM',
+    name: 'Американо D',
+    status: 'REGISTRATION',
+    rawStatus: 'REGISTRATION',
+    slug: 'americano-d-seligerskaya',
+    publicUrl: 'https://example.com/tournaments/americano-d-seligerskaya',
+    tournamentType: 'D',
+    isPublic: true,
+    accessLevels: [],
+    gender: 'MIXED',
+    maxPlayers: 8,
+    participants: [],
+    waitlist: [],
+    participantsCount: 5,
+    paidParticipantsCount: 5,
+    waitlistCount: 0,
+    allowedManagerPhones: [],
+    publicationCommunityIds: [],
+    studioId: 'studio-seligerskaya',
+    studioName: 'Селигерская',
+    courtName: 'Корт 1',
+    locationName: 'Селигерская',
+    trainerId: 'trainer-1',
+    trainerName: 'Алена Матасова',
+    trainerAvatarUrl: '',
+    exerciseTypeId: 'exercise-1',
+    startsAt: '2026-06-15T20:00:00+03:00',
+    endsAt: '2026-06-15T22:00:00+03:00',
+    createdAt: '2026-05-01T10:00:00+03:00',
+    updatedAt: '2026-05-01T10:00:00+03:00',
+    skin: {
+      title: 'Американо D',
+      subtitle: 'Селигерская',
+      imageUrl: null,
+      ctaLabel: 'Записаться',
+      tags: ['D', 'Американо'],
+    },
+    changeLog: createChangeLog(),
+    statusAudit: createStatusAudit('REGISTRATION'),
+    createdBy: {
+      id: 'user-1',
+      login: 'admin',
+      name: 'Admin',
+    },
+    updatedBy: {
+      id: 'user-1',
+      name: 'Admin',
+    },
+    details: {
+      statusAudit: createStatusAudit('REGISTRATION'),
+    },
+    format: 'Американо',
+  },
+  {
+    id: 'tournament-2',
+    source: 'VIVA',
+    name: 'Мексикано D+',
+    status: 'RUNNING',
+    rawStatus: 'RUNNING',
+    slug: 'mexicano-d-plus',
+    publicUrl: 'https://example.com/tournaments/mexicano-d-plus',
+    tournamentType: 'D+',
+    isPublic: true,
+    accessLevels: [],
+    gender: 'MIXED',
+    maxPlayers: 12,
+    participants: [],
+    waitlist: [],
+    participantsCount: 12,
+    paidParticipantsCount: 12,
+    waitlistCount: 2,
+    allowedManagerPhones: [],
+    publicationCommunityIds: [],
+    studioId: 'studio-seligerskaya',
+    studioName: 'Селигерская',
+    courtName: 'Корт 2',
+    locationName: 'Селигерская',
+    trainerId: 'trainer-2',
+    trainerName: 'Иван Петров',
+    trainerAvatarUrl: '',
+    exerciseTypeId: 'exercise-2',
+    startsAt: '2026-06-20T18:00:00+03:00',
+    endsAt: '2026-06-20T20:00:00+03:00',
+    createdAt: '2026-05-10T12:00:00+03:00',
+    updatedAt: '2026-06-20T18:00:00+03:00',
+    skin: {
+      title: 'Мексикано D+',
+      subtitle: 'Селигерская',
+      imageUrl: null,
+      ctaLabel: 'Смотреть',
+      tags: ['D+', 'Мексикано'],
+    },
+    changeLog: createChangeLog(),
+    statusAudit: createStatusAudit('RUNNING'),
+    createdBy: {
+      id: 'user-1',
+      login: 'admin',
+      name: 'Admin',
+    },
+    updatedBy: {
+      id: 'user-1',
+      name: 'Admin',
+    },
+    details: {
+      statusAudit: createStatusAudit('RUNNING'),
+    },
+    format: 'Мексикано',
+  },
+];

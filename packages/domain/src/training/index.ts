@@ -24,3 +24,5 @@ export {
 export type { TrainingDirectionName } from './constants/training.constants';
 
 export { TrainingToTournamentTransformer } from './transformers/training-to-tournament.transformer';
+
+export { TrainingRepositoryAbstract } from './abstracts/training-repository.abstract';

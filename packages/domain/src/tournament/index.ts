@@ -16,6 +16,11 @@ export type {
 } from './entities/tournament-change-log.entity';
 export type { ParticipantData } from './entities/participant.entity';
 export type { SourceTournamentSnapshotData } from './entities/source-tournament-snapshot.entity';
+export type {
+  TournamentCreatedByData,
+  TournamentUpdatedByData,
+} from './entities/tournament-actor.entity';
+export type { TournamentDetailsData } from './entities/tournament-details.entity';
 export type { TournamentData } from './entities/tournament.entity';
 
 export type {
@@ -38,3 +43,5 @@ export {
 } from './constants/tournament.constants';
 
 export { TournamentToDisplayTransformer } from './transformers/tournament-to-display.transformer';
+
+export { TournamentRepositoryAbstract } from './abstracts/tournament-repository.abstract';

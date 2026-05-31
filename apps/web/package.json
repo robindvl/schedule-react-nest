@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "generate:api": "openapi-ts",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -15,6 +16,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@hey-api/client-fetch": "^0.13.1",
+    "@hey-api/openapi-ts": "^0.97.3",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

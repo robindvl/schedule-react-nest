@@ -21,6 +21,7 @@ export {
   TRAINING_DIRECTION_NAMES,
   TRAINING_DURATION,
   TrainingToTournamentTransformer,
+  TrainingRepositoryAbstract,
 } from './training';
 
 export type {
@@ -36,6 +37,9 @@ export type {
   TournamentChangeLogData,
   ParticipantData,
   SourceTournamentSnapshotData,
+  TournamentCreatedByData,
+  TournamentUpdatedByData,
+  TournamentDetailsData,
   TournamentData,
   TournamentApiResponse,
   TournamentFilterParams,
@@ -51,4 +55,5 @@ export {
   TOURNAMENT_STATUS_LABELS,
   TOURNAMENT_GENDER_LABELS,
   TournamentToDisplayTransformer,
+  TournamentRepositoryAbstract,
 } from './tournament';

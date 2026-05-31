@@ -1,0 +1,946 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/trainings": {
+      "get": {
+        "operationId": "findAllTrainings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrainingDataDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "trainings"
+        ]
+      }
+    },
+    "/trainings/first": {
+      "get": {
+        "operationId": "findFirstTrainings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrainingDataDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "trainings"
+        ]
+      }
+    },
+    "/trainings/{id}": {
+      "get": {
+        "operationId": "findTrainingById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingDataDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Training not found"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "trainings"
+        ]
+      }
+    },
+    "/tournaments": {
+      "get": {
+        "operationId": "findAllTournaments",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated tournament statuses",
+            "schema": {
+              "example": "REGISTRATION,RUNNING",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TournamentDataDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "tournaments"
+        ]
+      }
+    },
+    "/tournaments/{id}": {
+      "get": {
+        "operationId": "findTournamentById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TournamentDataDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tournament not found"
+          }
+        },
+        "summary": "",
+        "tags": [
+          "tournaments"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Schedule API",
+    "description": "Trainings and tournaments schedule API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "DirectionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string",
+            "nullable": true
+          },
+          "whatToTake": {
+            "type": "string"
+          },
+          "photoWeb": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration": {
+            "type": "string"
+          },
+          "technicalBreakBeforeDuration": {
+            "type": "string",
+            "nullable": true
+          },
+          "technicalBreakAfterDuration": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "photo",
+          "whatToTake",
+          "photoWeb",
+          "duration",
+          "technicalBreakBeforeDuration",
+          "technicalBreakAfterDuration"
+        ]
+      },
+      "TrainingTypeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "GROUP",
+              "INDIVIDUAL"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "color",
+          "format"
+        ]
+      },
+      "StudioDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "country",
+          "city",
+          "address"
+        ]
+      },
+      "RoomDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "TrainerGradeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "TrainerDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "$ref": "#/components/schemas/TrainerGradeDto"
+          },
+          "exerciseDirections": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "bio": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "lastName",
+          "photo",
+          "grade",
+          "exerciseDirections",
+          "bio"
+        ]
+      },
+      "TrainingDataDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/DirectionDto"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TrainingTypeDto"
+          },
+          "timeFrom": {
+            "type": "string"
+          },
+          "timeTo": {
+            "type": "string"
+          },
+          "clientsCount": {
+            "type": "number"
+          },
+          "maxClientsCount": {
+            "type": "number"
+          },
+          "girlsOnly": {
+            "type": "boolean"
+          },
+          "studio": {
+            "$ref": "#/components/schemas/StudioDto"
+          },
+          "room": {
+            "$ref": "#/components/schemas/RoomDto"
+          },
+          "roomPartGroup": {
+            "type": "string",
+            "nullable": true
+          },
+          "availableSpots": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "trainers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrainerDto"
+            }
+          },
+          "cancellationDeadline": {
+            "type": "string"
+          },
+          "inBooking": {
+            "type": "boolean"
+          },
+          "inWaitlist": {
+            "type": "boolean"
+          },
+          "inReserve": {
+            "type": "boolean"
+          },
+          "availableClientSubscriptions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "availableClientOneTimes": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "customFields": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "requirements": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "direction",
+          "type",
+          "timeFrom",
+          "timeTo",
+          "clientsCount",
+          "maxClientsCount",
+          "girlsOnly",
+          "studio",
+          "room",
+          "roomPartGroup",
+          "availableSpots",
+          "trainers",
+          "cancellationDeadline",
+          "inBooking",
+          "inWaitlist",
+          "inReserve",
+          "availableClientSubscriptions",
+          "availableClientOneTimes",
+          "customFields",
+          "requirements"
+        ]
+      },
+      "ParticipantDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "lastName"
+        ]
+      },
+      "TournamentSkinDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "ctaLabel": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "subtitle",
+          "imageUrl",
+          "ctaLabel",
+          "tags"
+        ]
+      },
+      "ChangeLogActorDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "ChangeLogChangeDto": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "before": {
+            "type": "string"
+          },
+          "after": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "label"
+        ]
+      },
+      "TournamentChangeLogDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "CREATE",
+              "UPDATE",
+              "DELETE"
+            ]
+          },
+          "scope": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "actor": {
+            "$ref": "#/components/schemas/ChangeLogActorDto"
+          },
+          "at": {
+            "type": "string"
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChangeLogChangeDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "action",
+          "scope",
+          "summary",
+          "actor",
+          "at",
+          "changes"
+        ]
+      },
+      "StatusAuditActorDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "StatusAuditChangeDto": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "fromStatus": {
+            "type": "string"
+          },
+          "toStatus": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "actor": {
+            "$ref": "#/components/schemas/StatusAuditActorDto"
+          },
+          "source": {
+            "type": "string"
+          },
+          "auto": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "at",
+          "toStatus",
+          "reason",
+          "actor"
+        ]
+      },
+      "TournamentStatusAuditDto": {
+        "type": "object",
+        "properties": {
+          "lastChange": {
+            "$ref": "#/components/schemas/StatusAuditChangeDto"
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatusAuditChangeDto"
+            }
+          },
+          "canceledAt": {
+            "type": "string"
+          },
+          "canceledBy": {
+            "$ref": "#/components/schemas/StatusAuditActorDto"
+          },
+          "cancelReason": {
+            "type": "string"
+          },
+          "autoCanceledAt": {
+            "type": "string"
+          },
+          "autoCancelReason": {
+            "type": "string"
+          },
+          "autoCancelSource": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "lastChange",
+          "history"
+        ]
+      },
+      "TournamentCreatedByDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "login",
+          "name"
+        ]
+      },
+      "TournamentUpdatedByDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "TournamentDetailsDto": {
+        "type": "object",
+        "properties": {
+          "statusAudit": {
+            "$ref": "#/components/schemas/TournamentStatusAuditDto"
+          },
+          "sourceTournamentSnapshot": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "statusAudit"
+        ]
+      },
+      "TournamentDataDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "CUSTOM",
+              "VIVA"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REGISTRATION",
+              "RUNNING",
+              "CANCELED",
+              "COMPLETED"
+            ]
+          },
+          "rawStatus": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "publicUrl": {
+            "type": "string"
+          },
+          "sourceTournamentId": {
+            "type": "string"
+          },
+          "tournamentType": {
+            "type": "string"
+          },
+          "isPublic": {
+            "type": "boolean"
+          },
+          "accessLevels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MIXED",
+              "FEMALE",
+              "MALE"
+            ]
+          },
+          "maxPlayers": {
+            "type": "number"
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
+          },
+          "waitlist": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
+          },
+          "participantsCount": {
+            "type": "number"
+          },
+          "paidParticipantsCount": {
+            "type": "number"
+          },
+          "waitlistCount": {
+            "type": "number"
+          },
+          "allowedManagerPhones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "publicationCommunityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "studioId": {
+            "type": "string"
+          },
+          "studioName": {
+            "type": "string"
+          },
+          "courtName": {
+            "type": "string"
+          },
+          "locationName": {
+            "type": "string"
+          },
+          "trainerId": {
+            "type": "string"
+          },
+          "trainerName": {
+            "type": "string"
+          },
+          "trainerAvatarUrl": {
+            "type": "string"
+          },
+          "exerciseTypeId": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "skin": {
+            "$ref": "#/components/schemas/TournamentSkinDto"
+          },
+          "changeLog": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TournamentChangeLogDto"
+            }
+          },
+          "statusAudit": {
+            "$ref": "#/components/schemas/TournamentStatusAuditDto"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/TournamentCreatedByDto"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/TournamentUpdatedByDto"
+          },
+          "details": {
+            "$ref": "#/components/schemas/TournamentDetailsDto"
+          },
+          "linkedCustomTournamentId": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "mechanics": {
+            "type": "object"
+          },
+          "gameId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "name",
+          "status",
+          "rawStatus",
+          "slug",
+          "publicUrl",
+          "tournamentType",
+          "isPublic",
+          "accessLevels",
+          "gender",
+          "maxPlayers",
+          "participants",
+          "waitlist",
+          "participantsCount",
+          "paidParticipantsCount",
+          "waitlistCount",
+          "allowedManagerPhones",
+          "publicationCommunityIds",
+          "studioId",
+          "studioName",
+          "courtName",
+          "locationName",
+          "trainerId",
+          "trainerName",
+          "trainerAvatarUrl",
+          "exerciseTypeId",
+          "startsAt",
+          "endsAt",
+          "createdAt",
+          "updatedAt",
+          "skin",
+          "changeLog",
+          "statusAudit",
+          "createdBy",
+          "updatedBy",
+          "details",
+          "format"
+        ]
+      }
+    }
+  }
+}

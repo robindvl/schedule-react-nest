@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { findAllTournaments, findAllTrainings } from './app/@generated/api'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -6,6 +7,15 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    void findAllTrainings().then(({ data }) =>
+      console.log('Trainings:', data),
+    )
+    void findAllTournaments().then(({ data }) =>
+      console.log('Tournaments:', data),
+    )
+  }, [])
 
   return (
     <>
