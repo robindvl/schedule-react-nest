@@ -9,6 +9,6 @@ export interface TrainerData {
   lastName: string;
   photo: string | null;
   grade: TrainerGradeData;
-  exerciseDirections: [];
+  exerciseDirections: Record<string, unknown>[];
   bio: string | null;
 }

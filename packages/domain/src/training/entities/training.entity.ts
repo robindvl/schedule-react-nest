@@ -15,15 +15,15 @@ export interface TrainingData {
   girlsOnly: boolean;
   studio: StudioData;
   room: RoomData;
-  roomPartGroup: null;
-  availableSpots: [];
+  roomPartGroup: string | null;
+  availableSpots: Record<string, unknown>[];
   trainers: TrainerData[];
   cancellationDeadline: string;
   inBooking: boolean;
   inWaitlist: boolean;
   inReserve: boolean;
-  availableClientSubscriptions: [];
-  availableClientOneTimes: [];
-  customFields: [];
-  requirements: [];
+  availableClientSubscriptions: Record<string, unknown>[];
+  availableClientOneTimes: Record<string, unknown>[];
+  customFields: Record<string, unknown>[];
+  requirements: Record<string, unknown>[];
 }

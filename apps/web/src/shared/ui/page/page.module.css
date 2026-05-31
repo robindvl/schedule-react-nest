@@ -1,0 +1,18 @@
+.page {
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 40px;
+  letter-spacing: -0.8px;
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+@media (max-width: 1024px) {
+  .title {
+    font-size: 28px;
+  }
+}

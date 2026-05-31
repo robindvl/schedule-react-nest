@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/": {
+    "/api": {
       "get": {
         "operationId": "AppController_getHello",
         "parameters": [],
@@ -15,7 +15,7 @@
         ]
       }
     },
-    "/trainings": {
+    "/api/trainings": {
       "get": {
         "operationId": "findAllTrainings",
         "parameters": [],
@@ -40,7 +40,7 @@
         ]
       }
     },
-    "/trainings/first": {
+    "/api/trainings/first": {
       "get": {
         "operationId": "findFirstTrainings",
         "parameters": [],
@@ -65,7 +65,7 @@
         ]
       }
     },
-    "/trainings/{id}": {
+    "/api/trainings/{id}": {
       "get": {
         "operationId": "findTrainingById",
         "parameters": [
@@ -99,7 +99,7 @@
         ]
       }
     },
-    "/tournaments": {
+    "/api/tournaments": {
       "get": {
         "operationId": "findAllTournaments",
         "parameters": [
@@ -135,7 +135,7 @@
         ]
       }
     },
-    "/tournaments/{id}": {
+    "/api/tournaments/{id}": {
       "get": {
         "operationId": "findTournamentById",
         "parameters": [
@@ -723,6 +723,81 @@
           "name"
         ]
       },
+      "SourceTournamentSnapshotDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "studioId": {
+            "type": "string"
+          },
+          "studioName": {
+            "type": "string"
+          },
+          "courtName": {
+            "type": "string"
+          },
+          "locationName": {
+            "type": "string"
+          },
+          "trainerId": {
+            "type": "string"
+          },
+          "trainerName": {
+            "type": "string"
+          },
+          "trainerAvatarUrl": {
+            "type": "string"
+          },
+          "exerciseTypeId": {
+            "type": "string"
+          },
+          "tournamentType": {
+            "type": "string"
+          },
+          "maxPlayers": {
+            "type": "number"
+          },
+          "participantsCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "name",
+          "status",
+          "startsAt",
+          "endsAt",
+          "studioId",
+          "studioName",
+          "courtName",
+          "locationName",
+          "trainerId",
+          "trainerName",
+          "trainerAvatarUrl",
+          "exerciseTypeId",
+          "tournamentType",
+          "maxPlayers",
+          "participantsCount"
+        ]
+      },
       "TournamentDetailsDto": {
         "type": "object",
         "properties": {
@@ -730,11 +805,165 @@
             "$ref": "#/components/schemas/TournamentStatusAuditDto"
           },
           "sourceTournamentSnapshot": {
-            "type": "object"
+            "$ref": "#/components/schemas/SourceTournamentSnapshotDto"
           }
         },
         "required": [
           "statusAudit"
+        ]
+      },
+      "MechanicsWeightsDto": {
+        "type": "object",
+        "properties": {
+          "partnerRepeat": {
+            "type": "number"
+          },
+          "partnerImmediateRepeat": {
+            "type": "number"
+          },
+          "opponentRepeat": {
+            "type": "number"
+          },
+          "opponentRecentRepeat": {
+            "type": "number"
+          },
+          "balance": {
+            "type": "number"
+          },
+          "unevenBye": {
+            "type": "number"
+          },
+          "consecutiveBye": {
+            "type": "number"
+          },
+          "pairInternalImbalance": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "partnerRepeat",
+          "partnerImmediateRepeat",
+          "opponentRepeat",
+          "opponentRecentRepeat",
+          "balance",
+          "unevenBye",
+          "consecutiveBye",
+          "pairInternalImbalance"
+        ]
+      },
+      "MechanicsConfigDto": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string"
+          },
+          "rounds": {
+            "type": "number",
+            "nullable": true
+          },
+          "courts": {
+            "type": "number",
+            "nullable": true
+          },
+          "useRatings": {
+            "type": "boolean"
+          },
+          "firstRoundSeeding": {
+            "type": "string"
+          },
+          "roundExactThreshold": {
+            "type": "number"
+          },
+          "balanceOutlierThreshold": {
+            "type": "number"
+          },
+          "balanceOutlierWeight": {
+            "type": "number"
+          },
+          "strictPartnerUniqueness": {
+            "type": "string"
+          },
+          "strictBalance": {
+            "type": "string"
+          },
+          "avoidRepeatOpponents": {
+            "type": "boolean"
+          },
+          "avoidRepeatPartners": {
+            "type": "boolean"
+          },
+          "distributeByesEvenly": {
+            "type": "boolean"
+          },
+          "historyDepth": {
+            "type": "number"
+          },
+          "localSearchIterations": {
+            "type": "number"
+          },
+          "pairingExactThreshold": {
+            "type": "number"
+          },
+          "matchExactThreshold": {
+            "type": "number"
+          },
+          "weights": {
+            "$ref": "#/components/schemas/MechanicsWeightsDto"
+          }
+        },
+        "required": [
+          "mode",
+          "rounds",
+          "courts",
+          "useRatings",
+          "firstRoundSeeding",
+          "roundExactThreshold",
+          "balanceOutlierThreshold",
+          "balanceOutlierWeight",
+          "strictPartnerUniqueness",
+          "strictBalance",
+          "avoidRepeatOpponents",
+          "avoidRepeatPartners",
+          "distributeByesEvenly",
+          "historyDepth",
+          "localSearchIterations",
+          "pairingExactThreshold",
+          "matchExactThreshold",
+          "weights"
+        ]
+      },
+      "TournamentMechanicsRawDto": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "config": {
+            "$ref": "#/components/schemas/MechanicsConfigDto"
+          }
+        },
+        "required": [
+          "enabled",
+          "config"
+        ]
+      },
+      "TournamentMechanicsDto": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "config": {
+            "$ref": "#/components/schemas/MechanicsConfigDto"
+          },
+          "raw": {
+            "$ref": "#/components/schemas/TournamentMechanicsRawDto"
+          }
+        },
+        "required": [
+          "enabled",
+          "config",
+          "raw"
         ]
       },
       "TournamentDataDto": {
@@ -894,7 +1123,7 @@
             "type": "string"
           },
           "mechanics": {
-            "type": "object"
+            "$ref": "#/components/schemas/TournamentMechanicsDto"
           },
           "gameId": {
             "type": "string"

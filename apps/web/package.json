@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "generate:api": "openapi-ts",
+    "generate:api": "openapi-ts && node scripts/generate-sdk-urls.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@repo/domain": "workspace:*",
+    "@tanstack/react-router": "^1.170.10",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },

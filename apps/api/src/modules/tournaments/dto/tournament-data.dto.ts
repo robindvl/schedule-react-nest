@@ -5,6 +5,7 @@ import { ParticipantDto } from './participant.dto';
 import { TournamentChangeLogDto } from './tournament-change-log.dto';
 import { TournamentCreatedByDto } from './tournament-created-by.dto';
 import { TournamentDetailsDto } from './tournament-details.dto';
+import { TournamentMechanicsDto } from './tournament-mechanics.dto';
 import { TournamentSkinDto } from './tournament-skin.dto';
 import { TournamentStatusAuditDto } from './tournament-status-audit.dto';
 import { TournamentUpdatedByDto } from './tournament-updated-by.dto';
@@ -132,8 +133,8 @@ export class TournamentDataDto implements TournamentData {
   @ApiProperty()
   format!: string;
 
-  @ApiPropertyOptional()
-  mechanics?: TournamentData['mechanics'];
+  @ApiPropertyOptional({ type: TournamentMechanicsDto })
+  mechanics?: TournamentMechanicsDto;
 
   @ApiPropertyOptional()
   gameId?: string;

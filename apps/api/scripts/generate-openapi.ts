@@ -8,6 +8,7 @@ import { AppModule } from '../src/app.module';
 
 async function generateOpenApi() {
   const app = await NestFactory.create(AppModule, { logger: false });
+  app.setGlobalPrefix('api');
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Schedule API')
