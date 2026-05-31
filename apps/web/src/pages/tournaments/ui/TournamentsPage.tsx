@@ -1,18 +1,16 @@
-import { useEffect } from 'react';
-
-import { useApiClient } from '@/shared/api';
 import { pageStyles } from '@/shared/ui/page';
 
-export function TournamentsPage() {
-  const tournaments = useApiClient('tournaments');
+import { useTournamentsList } from '../model';
 
-  useEffect(() => {
-    void tournaments.findAll().then((data) => console.log('Tournaments:', data));
-  }, [tournaments]);
+export function TournamentsPage() {
+  const { data: tournaments, isLoading, isError } = useTournamentsList();
 
   return (
     <section className={pageStyles.page}>
       <h1 className={pageStyles.title}>Турниры</h1>
+      {isLoading && <p>Загрузка…</p>}
+      {isError && <p>Не удалось загрузить турниры</p>}
+      {tournaments && <p>Загружено: {tournaments.length}</p>}
     </section>
   );
 }
