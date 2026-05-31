@@ -7,11 +7,18 @@ import {
   TournamentCardList,
   type TournamentWidgetProps,
 } from '../../../entities/tournament';
+import {
+  mapCardToMinimalDetail,
+  TournamentDetailView,
+  type TournamentDetailData,
+} from '../../../features/tournament-detail';
 import { DatePickerRow } from '../../../features/tournament-date-picker';
 import { FilterBar } from '../../../features/tournament-filters';
 import '../../../shared/styles/style.css';
 
 import { TournamentSignupHeader } from './TournamentSignupHeader';
+
+type WidgetView = 'list' | 'detail';
 
 export function TournamentWidget({
   title,
@@ -23,7 +30,12 @@ export function TournamentWidget({
   onTypeChange,
   onStationChange,
   onOpenTournament,
+  onLoadDetail,
 }: TournamentWidgetProps) {
+  const [view, setView] = useState<WidgetView>('list');
+  const [detail, setDetail] = useState<TournamentDetailData | null>(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+
   const dates = useMemo(() => buildDatesFromItems(items), [items]);
   const typeOptions = useMemo(() => buildTypeOptionsFromItems(items), [items]);
   const stationOptions = useMemo(
@@ -67,12 +79,63 @@ export function TournamentWidget({
     onStationChange?.(value);
   };
 
+  const handleOpenTournament = async (tournamentId: string) => {
+    setView('detail');
+    setDetail(null);
+    setDetailLoading(true);
+
+    try {
+      if (onLoadDetail) {
+        setDetail(await onLoadDetail(tournamentId));
+      } else {
+        const card = items.find((item) => item.id === tournamentId);
+        setDetail(card ? mapCardToMinimalDetail(card) : null);
+      }
+
+      onOpenTournament?.(tournamentId);
+    } finally {
+      setDetailLoading(false);
+    }
+  };
+
+  const handleBackToList = () => {
+    setView('list');
+    setDetail(null);
+  };
+
+  const handleHeaderBack = () => {
+    if (view === 'detail') {
+      handleBackToList();
+      return;
+    }
+
+    onBack?.();
+  };
+
+  if (view === 'detail') {
+    return (
+      <div className="tournament-signup-page">
+        <TournamentSignupHeader
+          title={title}
+          backLabel={backLabel}
+          onBack={handleHeaderBack}
+        />
+
+        <section className="tournament-signup-section tournament-signup-detail">
+          {detailLoading && <p>Загрузка…</p>}
+          {!detailLoading && detail && <TournamentDetailView data={detail} />}
+          {!detailLoading && !detail && <p>Не удалось загрузить турнир</p>}
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="tournament-signup-page">
       <TournamentSignupHeader
         title={title}
         backLabel={backLabel}
-        onBack={onBack}
+        onBack={handleHeaderBack}
       />
 
       <section className="tournament-signup-section">
@@ -94,7 +157,7 @@ export function TournamentWidget({
 
         <TournamentCardList
           tournaments={filteredItems}
-          onOpenTournament={onOpenTournament}
+          onOpenTournament={handleOpenTournament}
         />
       </section>
     </div>

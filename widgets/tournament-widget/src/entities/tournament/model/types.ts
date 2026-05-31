@@ -46,4 +46,9 @@ export interface TournamentWidgetProps {
   onTypeChange?: (value: string) => void;
   onStationChange?: (value: string) => void;
   onOpenTournament?: (tournamentId: string) => void;
+  onLoadDetail?: (
+    tournamentId: string,
+  ) => Promise<
+    import('../../../features/tournament-detail').TournamentDetailData | null
+  >;
 }
