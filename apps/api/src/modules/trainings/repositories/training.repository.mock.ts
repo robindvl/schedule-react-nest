@@ -10,8 +10,8 @@ import { mockTrainings } from '../mocks/trainings.mock';
 export class TrainingRepositoryMock extends TrainingRepositoryAbstract {
   private trainings: TrainingData[] = [...mockTrainings];
 
-  findAll(): Promise<TrainingData[]> {
-    return Promise.resolve(this.trainings);
+  findAll(date: string): Promise<TrainingData[]> {
+    return Promise.resolve(this.filterByDate(this.trainings, date));
   }
 
   findById(id: string): Promise<TrainingData | null> {
@@ -20,13 +20,17 @@ export class TrainingRepositoryMock extends TrainingRepositoryAbstract {
     );
   }
 
-  findFirstTrainings(): Promise<TrainingData[]> {
+  findFirstTrainings(date: string): Promise<TrainingData[]> {
     return Promise.resolve(
-      this.trainings.filter(
+      this.filterByDate(this.trainings, date).filter(
         (training) =>
           training.direction.name === TRAINING_DIRECTION_NAMES.FIRST_TRAINING,
       ),
     );
+  }
+
+  private filterByDate(trainings: TrainingData[], date: string): TrainingData[] {
+    return trainings.filter((training) => training.timeFrom.startsWith(date));
   }
 
   create(training: Omit<TrainingData, 'id'>): Promise<TrainingData> {

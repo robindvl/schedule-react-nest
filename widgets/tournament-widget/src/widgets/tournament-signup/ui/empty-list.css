@@ -1,0 +1,9 @@
+.tournament-signup-empty {
+  margin: 24px 0 8px;
+  padding: 16px;
+  text-align: center;
+  font-family: var(--ui-font);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}

@@ -9,12 +9,12 @@ export class TrainingsService {
     private readonly trainingRepository: TrainingRepositoryAbstract,
   ) {}
 
-  findAll(): Promise<TrainingData[]> {
-    return this.trainingRepository.findAll();
+  findAll(date: string): Promise<TrainingData[]> {
+    return this.trainingRepository.findAll(date);
   }
 
-  findFirstTrainings(): Promise<TrainingData[]> {
-    return this.trainingRepository.findFirstTrainings();
+  findFirstTrainings(date: string): Promise<TrainingData[]> {
+    return this.trainingRepository.findFirstTrainings(date);
   }
 
   findById(id: string): Promise<TrainingData | null> {

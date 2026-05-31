@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
@@ -7,6 +7,7 @@ import { useApiClient } from '@/shared/api';
 import { TournamentWidget } from '@/widgets/remote';
 
 import {
+  getTodayDateId,
   mapTrainingToDetailView,
   mapTrainingsToWidgetItems,
   useTrainingsList,
@@ -16,7 +17,9 @@ export function TrainingsPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const trainingsApi = useApiClient('trainings');
-  const { data: trainings, isLoading, isError, refetch } = useTrainingsList();
+  const [scheduleDate, setScheduleDate] = useState(getTodayDateId);
+  const { data: trainings, isLoading, isError, refetch } =
+    useTrainingsList(scheduleDate);
 
   const items = useMemo(
     () => (trainings ? mapTrainingsToWidgetItems(trainings) : undefined),
@@ -34,6 +37,10 @@ export function TrainingsPage() {
     },
     [queryClient, trainingsApi],
   );
+
+  const handleDateChange = useCallback((dateId: string) => {
+    setScheduleDate(dateId);
+  }, []);
 
   if (isLoading) {
     return <p>Загрузка…</p>;
@@ -55,6 +62,7 @@ export function TrainingsPage() {
       }}
       items={items}
       onRefresh={() => refetch()}
+      onDateChange={handleDateChange}
       onLoadDetail={handleLoadDetail}
     />
   );

@@ -1,0 +1,256 @@
+openapi: 3.0.3
+info:
+  title: VivaCRM End User API
+  description: Public schedule API for padel hub (tenant iSkq6G).
+  version: 1.0.0
+
+servers:
+  - url: https://api.vivacrm.ru/end-user/api/v1/iSkq6G
+
+paths:
+  /exercises:
+    get:
+      operationId: listExercises
+      summary: List exercises for a day
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: Calendar date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+            example: '2026-06-02'
+      responses:
+        '200':
+          description: Exercises for the given date
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Exercise'
+
+  /exercises/{exerciseId}:
+    get:
+      operationId: getExerciseById
+      summary: Get exercise by id
+      parameters:
+        - name: exerciseId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Exercise details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exercise'
+        '404':
+          description: Exercise not found
+
+components:
+  schemas:
+    Direction:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - whatToTake
+        - duration
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        photo:
+          type: string
+          nullable: true
+        whatToTake:
+          type: string
+        photoWeb:
+          type: string
+          nullable: true
+        duration:
+          type: string
+          nullable: true
+        technicalBreakBeforeDuration:
+          type: string
+          nullable: true
+        technicalBreakAfterDuration:
+          type: string
+          nullable: true
+
+    ExerciseType:
+      type: object
+      required:
+        - id
+        - name
+        - color
+        - format
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        color:
+          type: string
+        format:
+          type: string
+
+    Studio:
+      type: object
+      required:
+        - id
+        - name
+        - country
+        - city
+        - address
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+
+    Room:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+
+    TrainerGrade:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+
+    Trainer:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - grade
+        - exerciseDirections
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        photo:
+          type: string
+          nullable: true
+        grade:
+          $ref: '#/components/schemas/TrainerGrade'
+        exerciseDirections:
+          type: array
+          items: {}
+        bio:
+          type: string
+          nullable: true
+
+    Exercise:
+      type: object
+      required:
+        - id
+        - direction
+        - type
+        - timeFrom
+        - timeTo
+        - clientsCount
+        - maxClientsCount
+        - girlsOnly
+        - studio
+        - room
+        - trainers
+        - cancellationDeadline
+        - inBooking
+        - inWaitlist
+        - inReserve
+        - availableClientSubscriptions
+        - availableClientOneTimes
+        - customFields
+        - requirements
+      properties:
+        id:
+          type: string
+          format: uuid
+        direction:
+          $ref: '#/components/schemas/Direction'
+        type:
+          $ref: '#/components/schemas/ExerciseType'
+        timeFrom:
+          type: string
+          format: date-time
+        timeTo:
+          type: string
+          format: date-time
+        clientsCount:
+          type: integer
+        maxClientsCount:
+          type: integer
+        girlsOnly:
+          type: boolean
+        studio:
+          $ref: '#/components/schemas/Studio'
+        room:
+          $ref: '#/components/schemas/Room'
+        roomPartGroup:
+          type: string
+          nullable: true
+        availableSpots:
+          type: array
+          items: {}
+        trainers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trainer'
+        cancellationDeadline:
+          type: string
+          format: date-time
+        inBooking:
+          type: boolean
+        inWaitlist:
+          type: boolean
+        inReserve:
+          type: boolean
+        availableClientSubscriptions:
+          type: array
+          items: {}
+        availableClientOneTimes:
+          type: array
+          items: {}
+        customFields:
+          type: array
+          items: {}
+        requirements:
+          type: array
+          items: {}

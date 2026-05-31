@@ -17,6 +17,8 @@ import { FilterBar } from '../../../features/tournament-filters';
 import '../../../shared/styles/style.css';
 
 import { TournamentSignupHeader } from './TournamentSignupHeader';
+import './empty-list.css';
+
 
 type WidgetView = 'list' | 'detail';
 
@@ -161,10 +163,16 @@ export function TournamentWidget({
           onRefresh={onRefresh}
         />
 
-        <TournamentCardList
-          tournaments={filteredItems}
-          onOpenTournament={handleOpenTournament}
-        />
+        {filteredItems.length === 0 ? (
+          <p className="tournament-signup-empty" role="status">
+            На эту дату турниров больше нет, выберите другую дату
+          </p>
+        ) : (
+          <TournamentCardList
+            tournaments={filteredItems}
+            onOpenTournament={handleOpenTournament}
+          />
+        )}
       </section>
     </div>
   );

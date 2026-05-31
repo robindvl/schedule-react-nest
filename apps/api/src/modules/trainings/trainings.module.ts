@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TrainingRepositoryAbstract } from '@repo/domain';
-import { TrainingRepositoryMock } from './repositories/training.repository.mock';
+import { TrainingRepositoryVivacrm } from './repositories/training.repository.vivacrm';
 import { TrainingsController } from './trainings.controller';
 import { TrainingsService } from './trainings.service';
 
@@ -10,7 +10,7 @@ import { TrainingsService } from './trainings.service';
     TrainingsService,
     {
       provide: TrainingRepositoryAbstract,
-      useClass: TrainingRepositoryMock,
+      useClass: TrainingRepositoryVivacrm,
     },
   ],
 })

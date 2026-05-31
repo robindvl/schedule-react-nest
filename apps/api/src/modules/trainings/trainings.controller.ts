@@ -1,14 +1,30 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import {
+  BadRequestException,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Query,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import type { TrainingData } from '@repo/domain';
 import { TrainingDataDto } from './dto';
 import { TrainingsService } from './trainings.service';
+
+const DATE_QUERY = {
+  name: 'date',
+  required: true,
+  description: 'Calendar date (YYYY-MM-DD)',
+  example: '2026-06-02',
+} as const;
 
 @ApiTags('trainings')
 @Controller('trainings')
@@ -17,16 +33,22 @@ export class TrainingsController {
 
   @Get()
   @ApiOperation({ operationId: 'findAllTrainings' })
+  @ApiQuery(DATE_QUERY)
   @ApiOkResponse({ type: TrainingDataDto, isArray: true })
-  findAll(): Promise<TrainingData[]> {
-    return this.trainingsService.findAll();
+  @ApiBadRequestResponse({ description: 'Query parameter "date" is required' })
+  findAll(@Query('date') date?: string): Promise<TrainingData[]> {
+    const resolvedDate = this.requireDate(date);
+    return this.trainingsService.findAll(resolvedDate);
   }
 
   @Get('first')
   @ApiOperation({ operationId: 'findFirstTrainings' })
+  @ApiQuery(DATE_QUERY)
   @ApiOkResponse({ type: TrainingDataDto, isArray: true })
-  findFirstTrainings(): Promise<TrainingData[]> {
-    return this.trainingsService.findFirstTrainings();
+  @ApiBadRequestResponse({ description: 'Query parameter "date" is required' })
+  findFirstTrainings(@Query('date') date?: string): Promise<TrainingData[]> {
+    const resolvedDate = this.requireDate(date);
+    return this.trainingsService.findFirstTrainings(resolvedDate);
   }
 
   @Get(':id')
@@ -42,5 +64,13 @@ export class TrainingsController {
     }
 
     return training;
+  }
+
+  private requireDate(date?: string): string {
+    if (!date?.trim()) {
+      throw new BadRequestException('Query parameter "date" is required');
+    }
+
+    return date.trim();
   }
 }

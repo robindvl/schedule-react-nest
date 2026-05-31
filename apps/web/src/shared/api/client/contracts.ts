@@ -3,8 +3,8 @@ import type { TrainingData, TournamentData } from '@repo/domain';
 import type { ApiMethod } from './method-api';
 
 export interface ITrainingsApi {
-  findAll: ApiMethod<() => Promise<TrainingData[]>>;
-  findFirst: ApiMethod<() => Promise<TrainingData[]>>;
+  findAll: ApiMethod<(args: { date: string }) => Promise<TrainingData[]>>;
+  findFirst: ApiMethod<(args: { date: string }) => Promise<TrainingData[]>>;
   findById: ApiMethod<(args: { id: string }) => Promise<TrainingData>>;
 }
 

@@ -8,13 +8,13 @@ import type { ApiClient } from '@/shared/api/client';
 import { methodApi } from '@/shared/api/client';
 
 export const trainingsApi: ApiClient['trainings'] = {
-  findAll: methodApi(async () => {
-    const { data } = await findAllTrainings();
+  findAll: methodApi(async ({ date }) => {
+    const { data } = await findAllTrainings({ query: { date } });
     return data ?? [];
   }, getSdkUrl(findAllTrainings)),
 
-  findFirst: methodApi(async () => {
-    const { data } = await findFirstTrainings();
+  findFirst: methodApi(async ({ date }) => {
+    const { data } = await findFirstTrainings({ query: { date } });
     return data ?? [];
   }, getSdkUrl(findFirstTrainings)),
 

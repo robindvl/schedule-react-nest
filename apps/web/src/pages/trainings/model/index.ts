@@ -1,3 +1,4 @@
+export { getTodayDateId } from './get-today-date-id';
 export { useTrainingById } from './use-training-by-id';
 export { useTrainingsList } from './use-trainings-list';
 export { mapTrainingToDetailView } from './map-training-to-detail-view';
