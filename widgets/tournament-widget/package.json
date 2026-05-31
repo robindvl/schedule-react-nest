@@ -10,7 +10,7 @@
   },
   "exports": {
     ".": "./index.ts",
-    "./styles": "./src/shared/styles/style.css"
+    "./styles": "./src/styles.entry.ts"
   },
   "peerDependencies": {
     "react": "^19.0.0",

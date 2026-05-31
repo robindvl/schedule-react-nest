@@ -1,7 +1,5 @@
 import type { SignupSectionId } from '../../../entities/tournament';
 
-import './section-nav.css';
-
 const SECTIONS: { id: SignupSectionId; label: string }[] = [
   { id: 'trainings', label: 'Тренировочные' },
   { id: 'tournaments', label: 'Соревновательные' },

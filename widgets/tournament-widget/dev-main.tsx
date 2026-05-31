@@ -7,7 +7,7 @@ import {
 } from './src/entities/tournament';
 import { tournamentDetailMock } from './src/features/tournament-detail';
 import { TournamentWidget } from './src/widgets/tournament-signup';
-import './src/shared/styles/style.css';
+import './src/styles.entry';
 
 function DevApp() {
   const [activeSection, setActiveSection] =

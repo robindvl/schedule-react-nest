@@ -14,10 +14,8 @@ import {
 } from '../../../features/tournament-detail';
 import { DatePickerRow } from '../../../features/tournament-date-picker';
 import { FilterBar } from '../../../features/tournament-filters';
-import '../../../shared/styles/style.css';
 
 import { TournamentSignupHeader } from './TournamentSignupHeader';
-import './empty-list.css';
 
 
 type WidgetView = 'list' | 'detail';
