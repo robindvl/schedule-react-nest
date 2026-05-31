@@ -13,6 +13,7 @@ export type {
 export { tournamentSignupMockItems } from './model/mocks/tournament-signup.mock';
 export {
   buildDatesFromItems,
+  buildScheduleDates,
   buildStationOptionsFromItems,
   buildTypeOptionsFromItems,
 } from './lib/derive-from-items';

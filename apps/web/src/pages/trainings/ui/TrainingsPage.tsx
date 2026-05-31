@@ -18,11 +18,11 @@ export function TrainingsPage() {
   const queryClient = useQueryClient();
   const trainingsApi = useApiClient('trainings');
   const [scheduleDate, setScheduleDate] = useState(getTodayDateId);
-  const { data: trainings, isLoading, isError, refetch } =
+  const { data: trainings, isLoading, isError, isFetching, refetch } =
     useTrainingsList(scheduleDate);
 
   const items = useMemo(
-    () => (trainings ? mapTrainingsToWidgetItems(trainings) : undefined),
+    () => mapTrainingsToWidgetItems(trainings ?? []),
     [trainings],
   );
 
@@ -42,16 +42,8 @@ export function TrainingsPage() {
     setScheduleDate(dateId);
   }, []);
 
-  if (isLoading) {
-    return <p>Загрузка…</p>;
-  }
-
-  if (isError) {
+  if (isError && !trainings) {
     return <p>Не удалось загрузить тренировки</p>;
-  }
-
-  if (!items) {
-    return null;
   }
 
   return (
@@ -61,6 +53,8 @@ export function TrainingsPage() {
         void navigate({ to: section === 'trainings' ? '/trainings' : '/tournaments' });
       }}
       items={items}
+      selectedDateId={scheduleDate}
+      loading={isLoading || isFetching}
       onRefresh={() => refetch()}
       onDateChange={handleDateChange}
       onLoadDetail={handleLoadDetail}

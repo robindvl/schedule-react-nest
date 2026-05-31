@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import {
-  buildDatesFromItems,
+  buildScheduleDates,
   buildStationOptionsFromItems,
   buildTypeOptionsFromItems,
   TournamentCardList,
@@ -27,6 +27,8 @@ export function TournamentWidget({
   activeSection,
   onSectionChange,
   items,
+  selectedDateId: selectedDateIdProp,
+  loading = false,
   backLabel = '← Назад',
   onBack,
   onRefresh,
@@ -40,20 +42,19 @@ export function TournamentWidget({
   const [detail, setDetail] = useState<TournamentDetailData | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
-  const dates = useMemo(() => buildDatesFromItems(items), [items]);
+  const scheduleDates = useMemo(() => buildScheduleDates(14), []);
   const typeOptions = useMemo(() => buildTypeOptionsFromItems(items), [items]);
   const stationOptions = useMemo(
     () => buildStationOptionsFromItems(items),
     [items],
   );
 
-  const [selectedDateId, setSelectedDateId] = useState('');
+  const [uncontrolledDateId, setUncontrolledDateId] = useState(
+    () => scheduleDates[0]?.id ?? '',
+  );
+  const selectedDateId = selectedDateIdProp ?? uncontrolledDateId;
   const [selectedType, setSelectedType] = useState('__all__');
   const [selectedStation, setSelectedStation] = useState('__all__');
-
-  useEffect(() => {
-    setSelectedDateId(dates[0]?.id ?? '');
-  }, [dates]);
 
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
@@ -69,7 +70,9 @@ export function TournamentWidget({
   }, [items, selectedDateId, selectedStation, selectedType]);
 
   const handleDateChange = (dateId: string) => {
-    setSelectedDateId(dateId);
+    if (selectedDateIdProp === undefined) {
+      setUncontrolledDateId(dateId);
+    }
     onDateChange?.(dateId);
   };
 
@@ -148,7 +151,7 @@ export function TournamentWidget({
 
       <section className="tournament-signup-section">
         <DatePickerRow
-          dates={dates}
+          dates={scheduleDates}
           selectedDateId={selectedDateId}
           onDateChange={handleDateChange}
         />
@@ -163,7 +166,11 @@ export function TournamentWidget({
           onRefresh={onRefresh}
         />
 
-        {filteredItems.length === 0 ? (
+        {loading ? (
+          <p className="tournament-signup-loading" role="status">
+            Загрузка…
+          </p>
+        ) : filteredItems.length === 0 ? (
           <p className="tournament-signup-empty" role="status">
             На эту дату турниров больше нет, выберите другую дату
           </p>

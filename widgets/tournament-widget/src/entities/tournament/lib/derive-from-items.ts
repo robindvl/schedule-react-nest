@@ -21,22 +21,29 @@ const MONTHS: Record<string, string> = {
   '12': 'ДЕК',
 };
 
-function buildFallbackDates(count = 14): TournamentSignupDateOption[] {
-  const today = new Date();
+/** Next `count` calendar days starting from today in the given IANA timezone. */
+export function buildScheduleDates(
+  count = 14,
+  timeZone = 'Europe/Moscow',
+): TournamentSignupDateOption[] {
+  const startId = new Intl.DateTimeFormat('en-CA', { timeZone }).format(
+    new Date(),
+  );
+  const [startYearRaw, startMonthRaw, startDayRaw] = startId.split('-');
+  const startYear = Number(startYearRaw);
+  const startMonth = Number(startMonthRaw);
+  const startDay = Number(startDayRaw);
 
   return Array.from({ length: count }, (_, index) => {
-    const date = new Date(today);
-    date.setDate(today.getDate() + index);
-
+    const date = new Date(startYear, startMonth - 1, startDay + index);
     const monthKey = String(date.getMonth() + 1).padStart(2, '0');
+    const day = date.getDate();
     const year = date.getFullYear();
-    const month = monthKey;
-    const day = String(date.getDate()).padStart(2, '0');
 
     return {
-      id: `${year}-${month}-${day}`,
+      id: `${year}-${monthKey}-${String(day).padStart(2, '0')}`,
       weekday: WEEKDAYS[date.getDay()] ?? '',
-      day: date.getDate(),
+      day,
       month: MONTHS[monthKey] ?? '',
     };
   });
@@ -59,7 +66,7 @@ export function buildDatesFromItems(
   }
 
   if (datesById.size === 0) {
-    return buildFallbackDates();
+    return buildScheduleDates();
   }
 
   return [...datesById.values()].sort((left, right) =>

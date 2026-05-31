@@ -44,6 +44,10 @@ export interface TournamentWidgetProps {
   activeSection: SignupSectionId;
   onSectionChange: (section: SignupSectionId) => void;
   items: TournamentSignupCard[];
+  /** YYYY-MM-DD; when set, the date row is controlled by the parent */
+  selectedDateId?: string;
+  /** List is being refetched (e.g. after date change) */
+  loading?: boolean;
   backLabel?: string;
   onBack?: () => void;
   onRefresh?: () => void;

@@ -18,12 +18,13 @@ export function TournamentsPage() {
   const queryClient = useQueryClient();
   const tournamentsApi = useApiClient('tournaments');
   const [scheduleDate, setScheduleDate] = useState(getTodayDateId);
-  const { data: tournaments, isLoading, isError, refetch } = useTournamentsList({
-    date: scheduleDate,
-  });
+  const { data: tournaments, isLoading, isError, isFetching, refetch } =
+    useTournamentsList({
+      date: scheduleDate,
+    });
 
   const items = useMemo(
-    () => (tournaments ? mapTournamentsToWidgetItems(tournaments) : undefined),
+    () => mapTournamentsToWidgetItems(tournaments ?? []),
     [tournaments],
   );
 
@@ -43,16 +44,8 @@ export function TournamentsPage() {
     setScheduleDate(dateId);
   }, []);
 
-  if (isLoading) {
-    return <p>Загрузка…</p>;
-  }
-
-  if (isError) {
+  if (isError && !tournaments) {
     return <p>Не удалось загрузить турниры</p>;
-  }
-
-  if (!items) {
-    return null;
   }
 
   return (
@@ -62,6 +55,8 @@ export function TournamentsPage() {
         void navigate({ to: section === 'trainings' ? '/trainings' : '/tournaments' });
       }}
       items={items}
+      selectedDateId={scheduleDate}
+      loading={isLoading || isFetching}
       onRefresh={() => refetch()}
       onDateChange={handleDateChange}
       onLoadDetail={handleLoadDetail}
