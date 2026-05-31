@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently -k -n widget,web -c blue,green \"pnpm --filter @widget/tournament-widget dev\" \"vite\"",
     "dev:host": "vite",
-    "build": "tsc -b && vite build",
+    "build": "pnpm run generate:api && tsc -b && vite build",
     "generate:api": "openapi-ts && node scripts/generate-sdk-urls.mjs",
     "lint": "eslint .",
     "preview": "vite preview"

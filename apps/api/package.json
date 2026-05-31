@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "pnpm run generate:vivacrm && pnpm run generate:padlhub && nest build",
     "openapi:generate": "ts-node --project tsconfig.json scripts/generate-openapi.ts",
     "generate:vivacrm": "openapi-ts",
     "generate:padlhub": "openapi-ts -f openapi-ts.padlhub.config.ts",
