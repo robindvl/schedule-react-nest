@@ -1,5 +1,6 @@
 export { TournamentWidget } from './src/widgets/tournament-signup';
 export type {
+  SignupSectionId,
   TournamentDetailData,
   TournamentDetailParticipant,
   TournamentSignupCard,

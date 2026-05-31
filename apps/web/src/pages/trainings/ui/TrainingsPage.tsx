@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
+import { useNavigate } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useApiClient } from '@/shared/api';
@@ -12,6 +13,7 @@ import {
 } from '../model';
 
 export function TrainingsPage() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const trainingsApi = useApiClient('trainings');
   const { data: trainings, isLoading, isError, refetch } = useTrainingsList();
@@ -47,7 +49,10 @@ export function TrainingsPage() {
 
   return (
     <TournamentWidget
-      title="Тренировки и игры"
+      activeSection="trainings"
+      onSectionChange={(section) => {
+        void navigate({ to: section === 'trainings' ? '/trainings' : '/tournaments' });
+      }}
       items={items}
       onRefresh={() => refetch()}
       onLoadDetail={handleLoadDetail}

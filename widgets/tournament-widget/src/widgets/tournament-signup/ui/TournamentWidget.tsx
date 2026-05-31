@@ -21,7 +21,9 @@ import { TournamentSignupHeader } from './TournamentSignupHeader';
 type WidgetView = 'list' | 'detail';
 
 export function TournamentWidget({
-  title,
+  title = 'Запись на турниры',
+  activeSection,
+  onSectionChange,
   items,
   backLabel = '← Назад',
   onBack,
@@ -117,6 +119,8 @@ export function TournamentWidget({
       <div className="tournament-signup-page">
         <TournamentSignupHeader
           title={title}
+          activeSection={activeSection}
+          onSectionChange={onSectionChange}
           backLabel={backLabel}
           onBack={handleHeaderBack}
         />
@@ -134,6 +138,8 @@ export function TournamentWidget({
     <div className="tournament-signup-page">
       <TournamentSignupHeader
         title={title}
+        activeSection={activeSection}
+        onSectionChange={onSectionChange}
         backLabel={backLabel}
         onBack={handleHeaderBack}
       />

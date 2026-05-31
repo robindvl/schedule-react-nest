@@ -1,17 +1,30 @@
-import { StrictMode } from 'react';
+import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { tournamentSignupMockItems } from './src/entities/tournament';
+import {
+  tournamentSignupMockItems,
+  type SignupSectionId,
+} from './src/entities/tournament';
 import { tournamentDetailMock } from './src/features/tournament-detail';
 import { TournamentWidget } from './src/widgets/tournament-signup';
 import './src/shared/styles/style.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+function DevApp() {
+  const [activeSection, setActiveSection] =
+    useState<SignupSectionId>('tournaments');
+
+  return (
     <TournamentWidget
-      title="Запись на турниры"
+      activeSection={activeSection}
+      onSectionChange={setActiveSection}
       items={tournamentSignupMockItems}
       onLoadDetail={async () => tournamentDetailMock}
     />
+  );
+}
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <DevApp />
   </StrictMode>,
 );

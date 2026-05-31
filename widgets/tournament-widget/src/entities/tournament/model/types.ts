@@ -36,8 +36,13 @@ export interface TournamentSignupCard {
   actionLabel: string;
 }
 
+export type SignupSectionId = 'trainings' | 'tournaments';
+
 export interface TournamentWidgetProps {
-  title: string;
+  /** Общий заголовок страницы (после «Назад») */
+  title?: string;
+  activeSection: SignupSectionId;
+  onSectionChange: (section: SignupSectionId) => void;
   items: TournamentSignupCard[];
   backLabel?: string;
   onBack?: () => void;

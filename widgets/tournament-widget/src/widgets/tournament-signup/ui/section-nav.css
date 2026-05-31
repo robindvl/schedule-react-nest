@@ -1,0 +1,32 @@
+.tournament-signup-section-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.tournament-signup-section-nav-item {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-family: var(--ui-font);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.tournament-signup-section-nav-item:hover {
+  color: var(--text);
+  background: var(--bg);
+}
+
+.tournament-signup-section-nav-item.is-active {
+  color: var(--purple);
+  background: var(--purple-light);
+}

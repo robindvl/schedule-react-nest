@@ -1,4 +1,5 @@
 export type {
+  SignupSectionId,
   TournamentSignupCard,
   TournamentSignupDateOption,
   TournamentSignupFilterOption,
