@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "exports": {
-    ".": "./index.ts"
+    ".": "./index.ts",
+    "./styles": "./src/shared/styles/style.css"
   },
   "peerDependencies": {
     "react": "^19.0.0",

@@ -3,5 +3,6 @@
   "framework": "vite",
   "installCommand": "cd ../.. && npx -y pnpm@9.15.9 install --frozen-lockfile",
   "buildCommand": "cd ../.. && npx -y pnpm@9.15.9 -w run build:vercel",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

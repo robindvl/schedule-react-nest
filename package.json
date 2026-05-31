@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "build:vercel": "node scripts/vercel-build.mjs",
     "build:vercel:api": "node scripts/vercel-build-api.mjs",
+    "build:vercel:widget": "node scripts/vercel-build-widget.mjs",
     "dev": "turbo run dev --filter=web --filter=api",
     "dev:web": "pnpm --filter web dev",
     "lint": "turbo run lint",
