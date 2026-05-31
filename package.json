@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:vercel": "node scripts/vercel-build.mjs",
     "dev": "turbo run dev --filter=web --filter=api",
     "dev:web": "pnpm --filter web dev",
     "lint": "turbo run lint",

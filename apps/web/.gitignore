@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 src/app/@generated/*
+
+# Copied from tournament-widget build (scripts/vercel-build.mjs)
+public/mf-widget/*
+!public/mf-widget/.gitkeep
