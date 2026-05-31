@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -k -n widget,web -c blue,green \"pnpm --filter @widget/tournament-widget dev\" \"vite\"",
+    "dev:host": "vite",
     "build": "tsc -b && vite build",
     "generate:api": "openapi-ts && node scripts/generate-sdk-urls.mjs",
     "lint": "eslint .",
@@ -12,6 +13,7 @@
   },
   "dependencies": {
     "@repo/domain": "workspace:*",
+    "@widget/tournament-widget": "workspace:*",
     "@tanstack/react-query": "^5.100.14",
     "@tanstack/react-router": "^1.170.10",
     "react": "^19.2.6",
@@ -21,6 +23,8 @@
     "@eslint/js": "^10.0.1",
     "@hey-api/client-fetch": "^0.13.1",
     "@hey-api/openapi-ts": "^0.97.3",
+    "@module-federation/vite": "^1.11.0",
+    "concurrently": "^9.2.1",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

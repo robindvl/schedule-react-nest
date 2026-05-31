@@ -1,16 +1,34 @@
-import { pageStyles } from '@/shared/ui/page';
+import { useMemo } from 'react';
 
-import { useTournamentsList } from '../model';
+import { TournamentWidget } from '@/widgets/remote';
+
+import { mapTournamentsToWidgetItems, useTournamentsList } from '../model';
 
 export function TournamentsPage() {
-  const { data: tournaments, isLoading, isError } = useTournamentsList();
+  const { data: tournaments, isLoading, isError, refetch } = useTournamentsList();
+
+  const items = useMemo(
+    () => (tournaments ? mapTournamentsToWidgetItems(tournaments) : undefined),
+    [tournaments],
+  );
+
+  if (isLoading) {
+    return <p>Загрузка…</p>;
+  }
+
+  if (isError) {
+    return <p>Не удалось загрузить турниры</p>;
+  }
+
+  if (!items) {
+    return null;
+  }
 
   return (
-    <section className={pageStyles.page}>
-      <h1 className={pageStyles.title}>Турниры</h1>
-      {isLoading && <p>Загрузка…</p>}
-      {isError && <p>Не удалось загрузить турниры</p>}
-      {tournaments && <p>Загружено: {tournaments.length}</p>}
-    </section>
+    <TournamentWidget
+      title="Запись на турниры"
+      items={items}
+      onRefresh={() => refetch()}
+    />
   );
 }
