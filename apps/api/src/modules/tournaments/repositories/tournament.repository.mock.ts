@@ -7,8 +7,8 @@ import { mockTournaments } from '../mocks/tournaments.mock';
 export class TournamentRepositoryMock extends TournamentRepositoryAbstract {
   private tournaments: TournamentData[] = [...mockTournaments];
 
-  findAll(): Promise<TournamentData[]> {
-    return Promise.resolve(this.tournaments);
+  findAll(date: string): Promise<TournamentData[]> {
+    return Promise.resolve(this.filterByDate(this.tournaments, date));
   }
 
   findById(id: string): Promise<TournamentData | null> {
@@ -17,11 +17,20 @@ export class TournamentRepositoryMock extends TournamentRepositoryAbstract {
     );
   }
 
-  findByStatus(status: string[]): Promise<TournamentData[]> {
+  findByStatus(date: string, status: string[]): Promise<TournamentData[]> {
     return Promise.resolve(
-      this.tournaments.filter((tournament) =>
+      this.filterByDate(this.tournaments, date).filter((tournament) =>
         status.includes(tournament.status),
       ),
+    );
+  }
+
+  private filterByDate(
+    tournaments: TournamentData[],
+    date: string,
+  ): TournamentData[] {
+    return tournaments.filter((tournament) =>
+      tournament.startsAt.startsWith(date),
     );
   }
 

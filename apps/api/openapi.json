@@ -132,10 +132,20 @@
         "operationId": "findAllTournaments",
         "parameters": [
           {
+            "name": "date",
+            "required": true,
+            "in": "query",
+            "description": "Calendar date (YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-06-01",
+              "type": "string"
+            }
+          },
+          {
             "name": "status",
             "required": false,
             "in": "query",
-            "description": "Comma-separated tournament statuses",
+            "description": "Comma-separated tournament statuses (filtered after fetch)",
             "schema": {
               "example": "REGISTRATION,RUNNING",
               "type": "string"
@@ -155,6 +165,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Query parameter \"date\" is required"
           }
         },
         "summary": "",

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   NotFoundException,
@@ -6,6 +7,7 @@ import {
   Query,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -17,6 +19,13 @@ import type { TournamentData } from '@repo/domain';
 import { TournamentDataDto } from './dto';
 import { TournamentsService } from './tournaments.service';
 
+const DATE_QUERY = {
+  name: 'date',
+  required: true,
+  description: 'Calendar date (YYYY-MM-DD)',
+  example: '2026-06-01',
+} as const;
+
 @ApiTags('tournaments')
 @Controller('tournaments')
 export class TournamentsController {
@@ -24,21 +33,29 @@ export class TournamentsController {
 
   @Get()
   @ApiOperation({ operationId: 'findAllTournaments' })
+  @ApiQuery(DATE_QUERY)
   @ApiQuery({
     name: 'status',
     required: false,
-    description: 'Comma-separated tournament statuses',
+    description: 'Comma-separated tournament statuses (filtered after fetch)',
     example: 'REGISTRATION,RUNNING',
   })
   @ApiOkResponse({ type: TournamentDataDto, isArray: true })
-  findAll(@Query('status') status?: string): Promise<TournamentData[]> {
+  @ApiBadRequestResponse({ description: 'Query parameter "date" is required' })
+  findAll(
+    @Query('date') date?: string,
+    @Query('status') status?: string,
+  ): Promise<TournamentData[]> {
+    const resolvedDate = this.requireDate(date);
+
     if (status) {
       return this.tournamentsService.findByStatus(
+        resolvedDate,
         status.split(',').map((item) => item.trim()),
       );
     }
 
-    return this.tournamentsService.findAll();
+    return this.tournamentsService.findAll(resolvedDate);
   }
 
   @Get(':id')
@@ -54,5 +71,13 @@ export class TournamentsController {
     }
 
     return tournament;
+  }
+
+  private requireDate(date?: string): string {
+    if (!date?.trim()) {
+      throw new BadRequestException('Query parameter "date" is required');
+    }
+
+    return date.trim();
   }
 }

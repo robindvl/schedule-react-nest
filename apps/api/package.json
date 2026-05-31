@@ -9,6 +9,7 @@
     "build": "nest build",
     "openapi:generate": "ts-node --project tsconfig.json scripts/generate-openapi.ts",
     "generate:vivacrm": "openapi-ts",
+    "generate:padlhub": "openapi-ts -f openapi-ts.padlhub.config.ts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",

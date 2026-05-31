@@ -9,15 +9,15 @@ export class TournamentsService {
     private readonly tournamentRepository: TournamentRepositoryAbstract,
   ) {}
 
-  findAll(): Promise<TournamentData[]> {
-    return this.tournamentRepository.findAll();
+  findAll(date: string): Promise<TournamentData[]> {
+    return this.tournamentRepository.findAll(date);
   }
 
   findById(id: string): Promise<TournamentData | null> {
     return this.tournamentRepository.findById(id);
   }
 
-  findByStatus(status: string[]): Promise<TournamentData[]> {
-    return this.tournamentRepository.findByStatus(status);
+  findByStatus(date: string, status: string[]): Promise<TournamentData[]> {
+    return this.tournamentRepository.findByStatus(date, status);
   }
 }

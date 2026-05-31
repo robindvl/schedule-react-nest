@@ -1,0 +1,280 @@
+openapi: 3.0.3
+info:
+  title: Padlhub API
+  description: Public tournaments API for padlhub.su
+  version: 1.0.0
+
+servers:
+  - url: https://padlhub.su/api
+
+paths:
+  /tournaments:
+    get:
+      operationId: listTournaments
+      summary: List tournaments for a day
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: Calendar date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+            example: '2026-06-01'
+      responses:
+        '200':
+          description: Tournaments for the given date
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PadlhubTournament'
+
+  /tournaments/{tournamentId}:
+    get:
+      operationId: getTournamentById
+      summary: Get tournament by id
+      parameters:
+        - name: tournamentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Tournament details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PadlhubTournament'
+        '404':
+          description: Tournament not found
+
+components:
+  schemas:
+    PadlhubTournamentSkin:
+      type: object
+      required:
+        - title
+        - subtitle
+        - ctaLabel
+        - tags
+      properties:
+        title:
+          type: string
+        subtitle:
+          type: string
+        imageUrl:
+          type: string
+          nullable: true
+        ctaLabel:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    PadlhubTournamentParticipant:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        avatarUrl:
+          type: string
+          nullable: true
+        avatar:
+          type: string
+          nullable: true
+        photo:
+          type: string
+          nullable: true
+        levelLabel:
+          type: string
+        level:
+          type: string
+        ratingLabel:
+          type: string
+        rating:
+          type: string
+        status:
+          type: string
+
+    PadlhubSourceTournamentSnapshot:
+      type: object
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        startsAt:
+          type: string
+          format: date-time
+        endsAt:
+          type: string
+          format: date-time
+        studioId:
+          type: string
+        studioName:
+          type: string
+        courtName:
+          type: string
+        locationName:
+          type: string
+        trainerId:
+          type: string
+        trainerName:
+          type: string
+        trainerAvatarUrl:
+          type: string
+        exerciseTypeId:
+          type: string
+        tournamentType:
+          type: string
+        maxPlayers:
+          type: integer
+        participantsCount:
+          type: integer
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/PadlhubTournamentParticipant'
+
+    PadlhubTournamentDetails:
+      type: object
+      properties:
+        sourceTournamentSnapshot:
+          $ref: '#/components/schemas/PadlhubSourceTournamentSnapshot'
+
+    PadlhubTournament:
+      type: object
+      required:
+        - id
+        - source
+        - name
+        - status
+        - rawStatus
+        - studioId
+        - studioName
+        - courtName
+        - locationName
+        - trainerId
+        - trainerName
+        - exerciseTypeId
+        - tournamentType
+        - maxPlayers
+        - participants
+        - participantsCount
+        - startsAt
+        - endsAt
+        - slug
+        - publicUrl
+        - isPublic
+        - accessLevels
+        - gender
+        - paidParticipantsCount
+        - waitlist
+        - waitlistCount
+        - allowedManagerPhones
+        - publicationCommunityIds
+        - skin
+        - format
+      properties:
+        id:
+          type: string
+          format: uuid
+        source:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        rawStatus:
+          type: string
+        gameId:
+          type: string
+        studioId:
+          type: string
+          format: uuid
+        studioName:
+          type: string
+        courtName:
+          type: string
+        locationName:
+          type: string
+        trainerId:
+          type: string
+          format: uuid
+        trainerName:
+          type: string
+        trainerAvatarUrl:
+          type: string
+        exerciseTypeId:
+          type: string
+        tournamentType:
+          type: string
+        maxPlayers:
+          type: integer
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/PadlhubTournamentParticipant'
+        participantsCount:
+          type: integer
+        startsAt:
+          type: string
+          format: date-time
+        endsAt:
+          type: string
+          format: date-time
+        details:
+          $ref: '#/components/schemas/PadlhubTournamentDetails'
+        linkedCustomTournamentId:
+          type: string
+        sourceTournamentId:
+          type: string
+        slug:
+          type: string
+        publicUrl:
+          type: string
+        isPublic:
+          type: boolean
+        accessLevels:
+          type: array
+          items:
+            type: string
+        gender:
+          type: string
+          enum: [MIXED, FEMALE, MALE]
+        paidParticipantsCount:
+          type: integer
+        waitlist:
+          type: array
+          items:
+            $ref: '#/components/schemas/PadlhubTournamentParticipant'
+        waitlistCount:
+          type: integer
+        allowedManagerPhones:
+          type: array
+          items:
+            type: string
+        publicationCommunityIds:
+          type: array
+          items:
+            type: string
+        skin:
+          $ref: '#/components/schemas/PadlhubTournamentSkin'
+        format:
+          type: string

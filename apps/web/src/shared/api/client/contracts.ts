@@ -10,7 +10,7 @@ export interface ITrainingsApi {
 
 export interface ITournamentsApi {
   findAll: ApiMethod<
-    (args?: { status?: string }) => Promise<TournamentData[]>
+    (args: { date: string; status?: string }) => Promise<TournamentData[]>
   >;
   findById: ApiMethod<(args: { id: string }) => Promise<TournamentData>>;
 }

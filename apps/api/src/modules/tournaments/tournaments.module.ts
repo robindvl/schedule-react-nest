@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TournamentRepositoryAbstract } from '@repo/domain';
-import { TournamentRepositoryMock } from './repositories/tournament.repository.mock';
+import { TournamentRepositoryPadlhub } from './repositories/tournament.repository.padlhub';
 import { TournamentsController } from './tournaments.controller';
 import { TournamentsService } from './tournaments.service';
 
@@ -10,7 +10,7 @@ import { TournamentsService } from './tournaments.service';
     TournamentsService,
     {
       provide: TournamentRepositoryAbstract,
-      useClass: TournamentRepositoryMock,
+      useClass: TournamentRepositoryPadlhub,
     },
   ],
 })

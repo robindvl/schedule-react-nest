@@ -4,9 +4,12 @@ import type { ApiClient } from '@/shared/api/client';
 import { methodApi } from '@/shared/api/client';
 
 export const tournamentsApi: ApiClient['tournaments'] = {
-  findAll: methodApi(async (args) => {
+  findAll: methodApi(async ({ date, status }) => {
     const { data } = await findAllTournaments({
-      query: args?.status ? { status: args.status } : undefined,
+      query: {
+        date,
+        ...(status ? { status } : {}),
+      },
     });
     return data ?? [];
   }, getSdkUrl(findAllTournaments)),

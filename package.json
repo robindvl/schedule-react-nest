@@ -8,7 +8,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "generate:api": "pnpm --filter @repo/domain build && pnpm --filter api generate:vivacrm && pnpm --filter api openapi:generate && pnpm --filter web generate:api"
+    "generate:api": "pnpm --filter @repo/domain build && pnpm --filter api generate:vivacrm && pnpm --filter api generate:padlhub && pnpm --filter api openapi:generate && pnpm --filter web generate:api"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
